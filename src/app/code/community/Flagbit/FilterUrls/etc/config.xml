@@ -114,4 +114,11 @@
             </filterurls_sitemap>
         </jobs>
     </crontab>
+    <default>
+        <catalog>
+            <layered_navigation>
+                <filterurls_addfilterlabel>0</filterurls_addfilterlabel>
+            </layered_navigation>
+        </catalog>
+    </default>
 </config>
