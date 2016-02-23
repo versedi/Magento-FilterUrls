@@ -103,14 +103,16 @@ class Flagbit_FilterUrls_Model_Rewrite extends Mage_Core_Model_Abstract
             return FALSE;
         }
 
+        $label = $this->getUrlLabel($filter, $option->getValue(), $storeId);
         // get normalized and lowercased version of the options label
-        $label = mb_strtolower(Mage::helper('filterurls')->normalize($option->getValue()));
+        // $label = mb_strtolower(Mage::helper('filterurls')->normalize($option->getValue()));
 
         // try to load the label, try to avoid duplication of rewrite strings by simple alternations
         $rewrite = Mage::getModel('filterurls/rewrite')->loadByRewriteString($label);
         $addition = 0;
         while ($rewrite->getId()) {
-            $rewrite = Mage::getModel('filterurls/rewrite')->loadByRewriteString($label . '_' . ++$addition);
+            $addition++;
+            $rewrite = Mage::getModel('filterurls/rewrite')->loadByRewriteString($label . '_' . $addition);
         }
 
         if ($addition) {
@@ -142,4 +144,13 @@ class Flagbit_FilterUrls_Model_Rewrite extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    public function getUrlLabel($filter, $value, $storeId)
+    {
+        $attributeLabel = Mage::helper('filterurls')->normalize($filter->getAttributeModel()->getStoreLabel($storeId));
+        $label = Mage::helper('filterurls')->normalize($value);
+        if(Mage::helper('filterurls')->isFilterLabelEnabled()) {
+            $label = $attributeLabel . '_' . $label;
+        }
+        return mb_strtolower($label);
+    }
 }

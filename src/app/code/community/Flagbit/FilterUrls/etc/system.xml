@@ -12,6 +12,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <comment>May require truncating of filterurls_* tables if rewrites were already generated.</comment>
                         </filterurls_addfilterlabel>
                     </fields>
                 </layered_navigation>

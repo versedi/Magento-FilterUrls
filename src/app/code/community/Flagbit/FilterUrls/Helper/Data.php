@@ -79,4 +79,9 @@ class Flagbit_FilterUrls_Helper_Data extends Mage_Catalog_Helper_Product_Url
 
         return $suffix;
     }
+
+    public function isFilterLabelEnabled()
+    {
+        return (bool)Mage::getStoreConfig('catalog/layered_navigation/filterurls_addfilterlabel');
+    }
 }
