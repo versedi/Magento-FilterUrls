@@ -43,17 +43,23 @@ class Flagbit_FilterUrls_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         return "sitemap_filter.xml";
     }
 
+    public function getSitemapFullPath()
+    {
+        $storeCode = Mage::app()->getStore()->getCode();
+        return Mage::getBaseDir() . DS . $this->getSitemapPath() . 'sitemaps'. DS . $storeCode . DS;
+    }
+
     public function generateXml()
     {
         $io = new Varien_Io_File();
         $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $this->getPath()));
+        $io->open(array('path' => $this->getSitemapFullPath()));
 
-        if ($io->fileExists($this->getSitemapFilename()) && !$io->isWriteable($this->getSitemapFilename())) {
-            Mage::throwException(Mage::helper('sitemap')->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writeable by web server.', $this->getSitemapFilename(), $this->getPath()));
+        if ($io->fileExists($this->getSitemapFullPath() . $this->getSitemapFilename()) && !$io->isWriteable($this->getSitemapFullPath() . $this->getSitemapFilename())) {
+            Mage::throwException(Mage::helper('sitemap')->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writeable by web server.', $this->getSitemapFilename(), $this->getSitemapFullPath()));
         }
 
-        $io->streamOpen($this->getSitemapFilename());
+        $io->streamOpen($this->getSitemapFullPath() . $this->getSitemapFilename());
 
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
         $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
