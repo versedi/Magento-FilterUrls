@@ -31,7 +31,13 @@
  * @version 0.1.0
  * @since 0.1.0
  */
-require_once 'abstract.php';
+
+if (file_exists('abstract.php')) {
+    require_once 'abstract.php';
+} else {
+    require_once 'shell/abstract.php';
+}
+
 
 /**
  * Flagbit FilterUrl shell script
